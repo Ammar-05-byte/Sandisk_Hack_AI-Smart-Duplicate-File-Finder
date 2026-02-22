@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    background-color: #080C12;
+    color: #C8D6E5;
+    font-family: 'DM Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0E1520;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1A2535;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3D5066;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Space Mono', monospace;
+  }
+  .text-gradient-accent {
+    background: linear-gradient(135deg, #00F5C4, #4D9EFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,245,196,0.1); }
+  50% { box-shadow: 0 0 25px rgba(0,245,196,0.3); }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.card-glow:hover {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
