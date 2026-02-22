@@ -8,7 +8,7 @@
 This is a full-stack web application that scans folders on your computer and intelligently finds duplicate files using AI. It goes far beyond simple duplicate detection:
 
 - **Exact Duplicates** — Finds files that are 100% identical using SHA256 hashing
-- **Image Near-Duplicates** — Finds similar-looking images even if they're slightly different (different resolution, compression, etc.)
+- **Image Near-Duplicates** — Finds similar-looking images even if slightly different (resolution, compression, etc.)
 - **Text Similarity** — Finds documents with similar content using AI sentence embeddings
 - **AI Recommendation Engine** — Tells you which duplicate to keep based on recency, resolution, folder priority, and file size
 - **Storage Analytics** — Shows charts of your file types, wasted space, and CO₂ impact
@@ -87,62 +87,82 @@ project/
 
 ## Prerequisites
 
-Before running, make sure you have these installed:
+### Mac — Install Prerequisites
 
-### Python 3.11+
-Download from: https://python.org/downloads
-
-Check it's installed:
+**Check if already installed:**
 ```bash
-python --version
-# Should show: Python 3.11.x or higher
+python3 --version
+node --version
 ```
 
-### Node.js 18+
-Download from: https://nodejs.org
-
-Check it's installed:
+**Install Homebrew (Mac package manager):**
 ```bash
-node --version
-# Should show: v18.x.x or higher
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+**Install Python:**
+```bash
+brew install python
+```
+
+**Install Node.js:**
+```bash
+brew install node
 ```
 
 ---
 
-## Running in VS Code (Recommended)
+### Windows — Install Prerequisites
 
-### Step 1 — Open the Project
+**Check if already installed:**
+```bash
+python --version
+node --version
+```
 
-1. Open **VS Code**
-2. Go to **File → Open Folder**
-3. Select the `project/` folder
+**Install Python:**
+1. Go to **https://python.org/downloads**
+2. Download and run the installer
+3. ⚠️ **Make sure to check "Add Python to PATH"** during installation
 
-### Step 2 — Open Two Terminals
+**Install Node.js:**
+1. Go to **https://nodejs.org**
+2. Download the **LTS version**
+3. Run the installer — keep all default settings
 
-Press **Ctrl + `** (backtick) to open a terminal.
-Click the **+** button in the terminal panel to open a second one.
+---
 
-You need **two terminals running at the same time** — one for backend, one for frontend.
+## Running the Project
+
+You need **two terminals open at the same time** — one for the backend and one for the frontend.
 
 ---
 
 ### Terminal 1 — Start the Backend
 
+**Mac:**
 ```bash
-# Navigate into the backend folder
-cd backend
+cd ~/project/backend
 
-# Create a Python virtual environment
+python3 -m venv venv
+
+source venv/bin/activate
+
+pip3 install -r requirements.txt
+
+python3 main.py
+```
+
+**Windows:**
+```bash
+cd C:\Users\YourName\project\backend
+
 python -m venv venv
 
-# Activate the virtual environment
-source venv/bin/activate          # Mac / Linux
-venv\Scripts\activate             # Windows
+venv\Scripts\activate
 
-# Install all Python dependencies
 pip install -r requirements.txt
 
-# Start the backend server
 python main.py
 ```
 
@@ -152,23 +172,21 @@ INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 INFO:     Application startup complete.
 ```
 
-> ⚠️ The first time you run a text similarity scan, the AI model (`all-MiniLM-L6-v2`, ~80MB) will automatically download. This is a one-time download — just wait for it to finish.
-
 Backend is now running at: **http://localhost:8000**
 API documentation available at: **http://localhost:8000/docs**
+
+> ⚠️ The first time you run a text similarity scan, the AI model (all-MiniLM-L6-v2, ~80MB) will automatically download. This is a one-time download — just wait for it to finish.
 
 ---
 
 ### Terminal 2 — Start the Frontend
 
+**Mac & Windows (same commands):**
 ```bash
-# Navigate into the frontend folder
-cd frontend
+cd project/frontend
 
-# Install Node dependencies (only needed once)
 npm install
 
-# Start the development server
 npm run dev
 ```
 
@@ -177,14 +195,13 @@ npm run dev
   VITE v5.x.x  ready in 500ms
 
   ➜  Local:   http://localhost:5173/
-  ➜  Network: use --host to expose
 ```
 
 Frontend is now running at: **http://localhost:5173**
 
 ---
 
-### Step 3 — Open the App
+### Open the App
 
 Open your browser and go to:
 ```
@@ -193,34 +210,52 @@ http://localhost:5173
 
 ---
 
-## Running Without VS Code (Command Line)
+## Every Time You Want to Run the Project Again
 
-If you prefer plain terminal:
+You don't need to reinstall anything. Just run:
 
 **Terminal 1 — Backend:**
+
+Mac:
 ```bash
-cd project/backend
-python -m venv venv
-source venv/bin/activate      # Windows: venv\Scripts\activate
-pip install -r requirements.txt
+cd ~/project/backend
+source venv/bin/activate
+python3 main.py
+```
+
+Windows:
+```bash
+cd C:\Users\YourName\project\backend
+venv\Scripts\activate
 python main.py
 ```
 
 **Terminal 2 — Frontend:**
+
+Mac & Windows:
 ```bash
 cd project/frontend
-npm install
 npm run dev
 ```
 
-Then open **http://localhost:5173** in your browser.
+> 💡 pip install and npm install only need to run once. After that just activate the venv and run the servers.
+
+---
+
+## Running in VS Code
+
+1. Open VS Code
+2. Go to **File → Open Folder** and select the `project/` folder
+3. Press **Ctrl + `** to open terminal
+4. Click the **+** button to open a second terminal
+5. Run backend in Terminal 1 and frontend in Terminal 2 using the commands above
 
 ---
 
 ## How to Use the App
 
 ### Dashboard (Home Page)
-1. Type a folder path into the input field (see examples below)
+1. Type a folder path into the input field
 2. Click **SCAN →**
 3. View total files, size, duplicate count, and recoverable space
 
@@ -228,7 +263,7 @@ Then open **http://localhost:5173** in your browser.
 1. Enter a folder path and click **SCAN →**
 2. Three tabs appear: **Exact Duplicates**, **Image Near-Dupes**, **Text Similarity**
 3. Click any group to expand it and see the files
-4. Click **◈ GET RECOMMENDATION** to see which file the AI recommends keeping
+4. Click **GET RECOMMENDATION** to see which file the AI recommends keeping
 
 ### Analytics Page
 1. Enter a folder path and click **SCAN →**
@@ -237,32 +272,71 @@ Then open **http://localhost:5173** in your browser.
 
 ---
 
-## What Path to Enter
+## What Path to Enter in the App
 
 Enter the full path to any folder on your computer:
 
-**Windows examples:**
+**Windows:**
 ```
 C:\Users\YourName\Downloads
 C:\Users\YourName\Documents
 C:\Users\YourName\Pictures
 ```
 
-**Mac examples:**
+**Mac:**
 ```
 /Users/yourname/Downloads
 /Users/yourname/Documents
 /Users/yourname/Pictures
 ```
 
-**Linux examples:**
-```
-/home/yourname/Downloads
-/home/yourname/Documents
-/home/yourname/Pictures
+> 💡 Start with your Downloads folder — it almost always has duplicates.
+
+---
+
+## Pushing to GitHub
+
+### Using Terminal
+
+```bash
+cd project
+git init
+touch .gitignore
+git add .
+git commit -m "Initial commit - AI Duplicate File Finder"
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+git branch -M main
+git push -u origin main
 ```
 
-> 💡 **Tip:** Start with your `Downloads` folder — it almost always contains duplicates.
+**.gitignore contents:**
+```
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
+node_modules/
+dist/
+.DS_Store
+.vscode/
+*.bin
+*.safetensors
+```
+
+### Using GitHub Desktop
+
+**Push (send your changes to GitHub):**
+1. Open GitHub Desktop
+2. Changed files appear in the left panel
+3. Write a commit message in the **Summary** box at the bottom left
+4. Click **Commit to main**
+5. Click **Push origin** at the top
+
+**Pull (get changes from GitHub):**
+1. Click **Fetch origin** at the top bar
+2. If new changes exist, the button changes to **Pull origin**
+3. Click **Pull origin**
 
 ---
 
@@ -285,22 +359,23 @@ C:\Users\YourName\Pictures
 
 | Problem | Solution |
 |---------|----------|
-| `python` not found | Try `python3` instead |
-| `pip` not found | Try `pip3` instead |
+| `python` not found | Use `python3` instead (Mac/Linux) |
+| `pip` not found | Use `pip3` instead (Mac/Linux) |
 | Port 8000 already in use | Change port in `backend/main.py` last line |
 | Port 5173 already in use | Vite will auto-pick the next available port |
-| CORS error in browser | Make sure the backend is running on port 8000 |
+| CORS error in browser | Make sure backend is running on port 8000 |
 | `npm install` fails | Make sure Node.js 18+ is installed |
-| AI model download hangs | Wait — it's downloading ~80MB, can take a few minutes |
+| AI model download hangs | Wait — downloading ~80MB, can take a few minutes |
 | Permission denied on folder | Choose a folder your user account has access to |
 | `imagehash` install fails | Run `pip install Pillow imagehash` separately |
+| Git push rejected | Run `git push -u origin main --force` |
 
 ---
 
 ## Important Notes
 
-- **Smart Clean Mode is simulation only** — the app will never delete any files on your computer
+- **Smart Clean Mode is simulation only** — the app will never delete any files
 - **Text similarity** downloads the `all-MiniLM-L6-v2` AI model (~80MB) on first use
-- **Face detection** requires `opencv-python` — install with `pip install opencv-python` if needed (optional, app works without it)
-- Re-activating the virtual environment (`source venv/bin/activate`) is required each time you open a new terminal session, but `pip install` only needs to run once
+- **Face detection** requires `opencv-python` — install with `pip install opencv-python` if needed (optional)
+- Re-activating the virtual environment is required each time you open a new terminal, but `pip install` only runs once
 - `npm install` only needs to run once — after that just use `npm run dev`
